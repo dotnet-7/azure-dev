@@ -319,7 +319,7 @@ module apim 'br/public:avm/res/api-management/service:0.1.3' = if (useAPIM) {
     publisherName: publisherName
     location: location
     tags: tags
-    sku: apimSku
+    // sku: apimSku
     customProperties: apimSku == 'Consumption' ? {} : {
       'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA': 'false'
       'Microsoft.WindowsAzure.ApiManagement.Gateway.Security.Ciphers.TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA': 'false'
