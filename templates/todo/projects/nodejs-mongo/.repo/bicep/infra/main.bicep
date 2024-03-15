@@ -17,15 +17,6 @@ param publisherEmail string = 'noreply@microsoft.com'
 @minLength(1)
 param publisherName string = 'n/a'
 
-@description('The pricing tier of this API Management service')
-@allowed([
-  'Consumption'
-  'Developer'
-  'Standard'
-  'Premium'
-])
-param apimSku string = 'Consumption'
-
 param connectionStringKey string = 'AZURE-COSMOS-CONNECTION-STRING'
 param databaseName string = ''
 // Because databaseName is optional in main.bicep, we make sure the database name is set here.
@@ -54,6 +45,12 @@ var actualCosmosAccountName = !empty(cosmosAccountName)? cosmosAccountName: '${a
 param useAPIM bool = false
 
 @description('API Management SKU to use if APIM is enabled')
+@allowed([
+  'Consumption'
+  'Developer'
+  'Standard'
+  'Premium'
+])
 param apimSku string = 'Consumption'
 
 @description('Id of the user or app to assign application roles')
