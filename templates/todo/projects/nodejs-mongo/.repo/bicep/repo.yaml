@@ -89,6 +89,12 @@ repo:
 
     - from: ../../../../common/infra/bicep/app/web-appservice.bicep
       to: ./infra/app/web.bicep
+    
+    - from: ../../../../common/infra/bicep/app/applicationinsights-dashboard.bicep
+      to: ./infra/app/applicationinsights-dashboard.bicep
+    
+    - from: ../../../../common/infra/bicep/app/keyvault-secrets.bicep
+      to: ./infra/app/keyvault-secrets.bicep
 
     - from: ../../../../common/infra/bicep/app/api-appservice-node.bicep
       to: ./infra/app/api.bicep
