@@ -282,12 +282,12 @@ module apim 'br/public:avm/res/api-management/service:0.1.3' = if (useAPIM) {
         path: 'todo'
         displayName: 'Simple Todo API'
         apiDescription: 'This is a simple Todo API'
-        serviceUrl: 'https://${api.outputs.defaultHostname}'
+        serviceUrl: apiUri
         subscriptionRequired: false
         value: loadTextContent('../../../../../api/common/openapi.yaml')
         policies: [
           {
-            value: replace(loadTextContent('../../../../../../common/infra/shared/gateway/apim/apim-api-policy.xml'), '{origin}', 'https://${web.outputs.defaultHostname}')
+            value: replace(loadTextContent('../../../../../../common/infra/shared/gateway/apim/apim-api-policy.xml'), '{origin}', webUri)
             format: 'rawxml'
           }
         ]
@@ -320,7 +320,7 @@ output AZURE_KEY_VAULT_ENDPOINT string = keyVault.outputs.uri
 output AZURE_KEY_VAULT_NAME string = keyVault.outputs.name
 output AZURE_LOCATION string = location
 output AZURE_TENANT_ID string = tenant().tenantId
-output API_BASE_URL string = useAPIM ? 'https://${apim.outputs.name}.azure-api.net/todo' : 'https://${api.outputs.defaultHostname}'
-output REACT_APP_WEB_BASE_URL string = 'https://${web.outputs.defaultHostname}'
+output API_BASE_URL string = useAPIM ? 'https://${apim.outputs.name}.azure-api.net/todo' : apiUri
+output REACT_APP_WEB_BASE_URL string = webUri
 output USE_APIM bool = useAPIM
-output SERVICE_API_ENDPOINTS array = useAPIM ? [ 'https://${apim.outputs.name}.azure-api.net/todo', 'https://${api.outputs.defaultHostname}' ]: []
+output SERVICE_API_ENDPOINTS array = useAPIM ? [ 'https://${apim.outputs.name}.azure-api.net/todo', apiUri ]: []
