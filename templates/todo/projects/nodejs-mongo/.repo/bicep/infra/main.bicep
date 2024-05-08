@@ -209,11 +209,7 @@ module appServicePlan 'br/public:avm/res/web/serverfarm:0.1.0' = {
   params: {
     name: !empty(appServicePlanName) ? appServicePlanName : '${abbrs.webServerFarms}${resourceToken}'
     sku: {
-      capacity: 1
-      family: 'B'
-      name: 'B1'
-      size: 'B1'
-      tier: 'Basic'
+      name: 'B3'
     }
     location: location
     tags: tags

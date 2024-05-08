@@ -1,5 +1,7 @@
 package apphost
 
+import "github.com/azure/azure-dev/cli/azd/pkg/custommaps"
+
 type genAppInsight struct{}
 
 type genStorageAccount struct {
@@ -29,25 +31,30 @@ type genKeyVault struct {
 }
 
 type genContainerApp struct {
-	Image   string
-	Dapr    *genContainerAppManifestTemplateContextDapr
-	Env     map[string]string
-	Secrets map[string]string
-	Ingress *genContainerAppIngress
 	Volumes []*Volume
 }
 
+type genContainerAppIngressPort struct {
+	External   bool
+	TargetPort int
+}
+
+type genContainerAppIngressAdditionalPortMappings struct {
+	genContainerAppIngressPort
+	ExposedPort int
+}
+
 type genContainerAppIngress struct {
-	External      bool
-	TargetPort    int
-	Transport     string
-	AllowInsecure bool
+	genContainerAppIngressPort
+	Transport              string
+	AllowInsecure          bool
+	AdditionalPortMappings []genContainerAppIngressAdditionalPortMappings
 }
 
 type genContainer struct {
 	Image    string
 	Env      map[string]string
-	Bindings map[string]*Binding
+	Bindings custommaps.WithOrder[Binding]
 	Inputs   map[string]Input
 	Volumes  []*Volume
 }
@@ -56,14 +63,16 @@ type genDockerfile struct {
 	Path      string
 	Context   string
 	Env       map[string]string
-	Bindings  map[string]*Binding
+	Bindings  custommaps.WithOrder[Binding]
 	BuildArgs map[string]string
+	Args      []string
 }
 
 type genProject struct {
 	Path     string
 	Env      map[string]string
-	Bindings map[string]*Binding
+	Args     []string
+	Bindings custommaps.WithOrder[Binding]
 }
 
 type genAppConfig struct{}
@@ -116,6 +125,7 @@ type genBicepTemplateContext struct {
 	HasLogAnalyticsWorkspace        bool
 	RequiresPrincipalId             bool
 	RequiresStorageVolume           bool
+	AspireDashboard                 bool
 	AppInsights                     map[string]genAppInsight
 	ServiceBuses                    map[string]genServiceBus
 	StorageAccounts                 map[string]genStorageAccount
@@ -135,12 +145,15 @@ type genBicepTemplateContext struct {
 }
 
 type genContainerAppManifestTemplateContext struct {
-	Name            string
-	Ingress         *genContainerAppIngress
-	Env             map[string]string
-	Secrets         map[string]string
-	KeyVaultSecrets map[string]string
-	Dapr            *genContainerAppManifestTemplateContextDapr
+	Name                        string
+	Ingress                     *genContainerAppIngress
+	Env                         map[string]string
+	Secrets                     map[string]string
+	KeyVaultSecrets             map[string]string
+	Dapr                        *genContainerAppManifestTemplateContextDapr
+	AutoConfigureDataProtection bool
+	Args                        []string
+	Volumes                     []*Volume
 }
 
 type genProjectFileContext struct {
